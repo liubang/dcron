@@ -1,13 +1,15 @@
 package dcron
 
 import (
+	"context"
 	"errors"
-	. "github.com/libi/dcron/driver"
-	"github.com/robfig/cron/v3"
 	"log"
 	"os"
 	"sync"
 	"time"
+
+	. "github.com/libi/dcron/driver"
+	"github.com/robfig/cron/v3"
 )
 
 const defaultReplicas = 50
@@ -155,8 +157,8 @@ func (d *Dcron) Run() {
 }
 
 //Stop stop job
-func (d *Dcron) Stop() {
+func (d *Dcron) Stop() context.Context {
 	d.isRun = false
-	d.cr.Stop()
 	d.info("dcron stopped")
+	return d.cr.Stop()
 }
